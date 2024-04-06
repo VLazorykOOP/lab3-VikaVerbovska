@@ -4,10 +4,11 @@
 #include <vector>
 using namespace std;
 
+// Клас для представлення часу
 class Time {
-    int hour;
-    int minute;
-    int second;
+    int hour;     // Години
+    int minute;   // Хвилини
+    int second;   // Секунди
 
 public:
     // Конструктор за замовчуванням
@@ -18,7 +19,7 @@ public:
         setTime(h, m, s);
     }
 
-    // Функції встановлення годин, хвилин та секунд
+    // Функція встановлення годин, хвилин та секунд
     void setTime(int h, int m, int s) {
         if (h >= 0 && h < 24)
             hour = h;
@@ -36,7 +37,7 @@ public:
             second = 0;
     }
 
-    // Функції одержання годин, хвилин та секунд
+    // Функції отримання годин, хвилин та секунд
     int getHour() const {
         return hour;
     }
@@ -49,7 +50,7 @@ public:
         return second;
     }
 
-    // Функція друку
+    // Функція друку часу
     void printTime(bool is12HourFormat = false) const {
         if (is12HourFormat) {
             cout << ((hour == 0 || hour == 12) ? 12 : hour % 12) << " " << (hour < 12 ? "a.m." : "p.m.") << " "
@@ -63,31 +64,34 @@ public:
 
 typedef complex<float> ComplexFloat;
 
+// Клас для роботи з комплексними векторами
 class ComplexVector {
 
-    ComplexFloat* v;
-    int num;
-    int state;
+    ComplexFloat* v;  // Масив комплексних чисел
+    int num;          // Кількість елементів у векторі
+    int state;        // Стан вектора
+
 public:
-    ComplexVector() : v(nullptr), num(0), state(0) {}
-    ComplexVector(int n);
-    ComplexVector(int n, ComplexFloat&);
-    ComplexVector(int n, ComplexFloat*);
-    ComplexVector(const ComplexVector& s);
-    ComplexVector& operator=(const ComplexVector& s);
-    ~ComplexVector() {
+    ComplexVector() : v(nullptr), num(0), state(0) {}  // Конструктор за замовчуванням
+    ComplexVector(int n);                              // Конструктор з параметром
+    ComplexVector(int n, ComplexFloat&);               // Конструктор з параметрами
+    ComplexVector(int n, ComplexFloat*);               // Конструктор з параметрами
+    ComplexVector(const ComplexVector& s);             // Конструктор копіювання
+    ComplexVector& operator=(const ComplexVector& s);  // Оператор присвоєння
+    ~ComplexVector() {                                 // Деструктор
         cout << " Deleting vector";
         if (v) delete[] v;
     }
-    void Output();
-    void Input();
-    ComplexVector Add(ComplexVector& b);
-    void SetElement(int index, const ComplexFloat& value = ComplexFloat(0, 0));
-    ComplexFloat GetElement(int index);
-    ComplexVector Subtract(ComplexVector& b);
-    ComplexVector Multiply(float scalar);
+    void Output();                                     // Вивід вектора
+    void Input();                                      // Введення вектора
+    ComplexVector Add(ComplexVector& b);               // Додавання векторів
+    void SetElement(int index, const ComplexFloat& value = ComplexFloat(0, 0));  // Встановлення елементу вектора
+    ComplexFloat GetElement(int index);                // Отримання елементу вектора
+    ComplexVector Subtract(ComplexVector& b);          // Віднімання векторів
+    ComplexVector Multiply(float scalar);              // Множення вектора на скаляр
 };
 
+// Конструктор з параметром для ініціалізації вектора з n елементів
 ComplexVector::ComplexVector(int n) : v(nullptr), num(0), state(0) {
     if (n <= 0) {
         cout << " Vector size is invalid ";
@@ -100,6 +104,7 @@ ComplexVector::ComplexVector(int n) : v(nullptr), num(0), state(0) {
     }
 }
 
+// Конструктор з параметром для ініціалізації вектора з n елементів, кожний з яких має значення b
 ComplexVector::ComplexVector(int n, ComplexFloat& b) : v(nullptr), num(0), state(0) {
     if (n <= 0) {
         cout << " Vector size is invalid ";
@@ -112,6 +117,7 @@ ComplexVector::ComplexVector(int n, ComplexFloat& b) : v(nullptr), num(0), state
     }
 }
 
+// Конструктор з параметром для ініціалізації вектора з n елементів, які копіюються з масиву p
 ComplexVector::ComplexVector(int n, ComplexFloat* p) : v(nullptr), num(0), state(0) {
     if (n <= 0 || p == nullptr) {
         cout << " Vector size or input array is invalid ";
@@ -124,6 +130,7 @@ ComplexVector::ComplexVector(int n, ComplexFloat* p) : v(nullptr), num(0), state
     }
 }
 
+// Конструктор копіювання
 ComplexVector::ComplexVector(const ComplexVector& s) : v(nullptr), num(s.num), state(0) {
     if (num > 0) {
         v = new ComplexFloat[num];
@@ -133,6 +140,7 @@ ComplexVector::ComplexVector(const ComplexVector& s) : v(nullptr), num(s.num), s
     }
 }
 
+// Оператор присвоєння
 ComplexVector& ComplexVector::operator=(const ComplexVector& s) {
     if (this != &s) {
         if (num != s.num) {
@@ -147,6 +155,7 @@ ComplexVector& ComplexVector::operator=(const ComplexVector& s) {
     return *this;
 }
 
+// Введення елементів вектора
 void ComplexVector::Input() {
     if (num == 0) {
         do {
@@ -163,6 +172,7 @@ void ComplexVector::Input() {
     }
 }
 
+// Вивід елементів вектора
 void ComplexVector::Output() {
     if (num > 0) {
         for (int i = 0; i < num; i++) {
@@ -174,6 +184,7 @@ void ComplexVector::Output() {
     }
 }
 
+// Встановлення значення елемента вектора за індексом
 void ComplexVector::SetElement(int index, const ComplexFloat& value) {
     if (index >= 0 && index < num) {
         v[index] = value;
@@ -183,6 +194,7 @@ void ComplexVector::SetElement(int index, const ComplexFloat& value) {
     }
 }
 
+// Отримання значення елемента вектора за індексом
 ComplexFloat ComplexVector::GetElement(int index) {
     if (index >= 0 && index < num) {
         return v[index];
@@ -193,6 +205,7 @@ ComplexFloat ComplexVector::GetElement(int index) {
     }
 }
 
+// Додавання векторів
 ComplexVector ComplexVector::Add(ComplexVector& b) {
     int tnum = (num < b.num) ? num : b.num;
     ComplexVector tmp(tnum);
@@ -202,6 +215,7 @@ ComplexVector ComplexVector::Add(ComplexVector& b) {
     return tmp;
 }
 
+// Віднімання векторів
 ComplexVector ComplexVector::Subtract(ComplexVector& b) {
     int tnum = (num < b.num) ? num : b.num;
     ComplexVector tmp(tnum);
@@ -211,6 +225,7 @@ ComplexVector ComplexVector::Subtract(ComplexVector& b) {
     return tmp;
 }
 
+// Множення вектора на скаляр
 ComplexVector ComplexVector::Multiply(float scalar) {
     ComplexVector tmp(num);
     for (int i = 0; i < num; i++) {
@@ -219,8 +234,7 @@ ComplexVector ComplexVector::Multiply(float scalar) {
     return tmp;
 }
 
-
-
+// Основна функція програми
 int main() {
     setlocale(LC_CTYPE, "ukr");
     int choice;
@@ -232,6 +246,7 @@ int main() {
 
     switch (choice) {
     case 1: {
+        // Приклад роботи з класом Time
         Time time1; // Конструктор за замовчуванням
         Time time2(16, 18, 3); // Конструктор з параметрами
 
@@ -251,9 +266,7 @@ int main() {
         break;
     }
     case 2: {
-
-
-        // Тут можна виконати тестування методів класу Vector
+        // Приклад роботи з класом ComplexVector
         ComplexFloat a(1.0, 2), b, c;
         cout << a << endl;
         b.real(21.3);
@@ -286,8 +299,9 @@ int main() {
         ComplexVector VecObj4 = VecObj.Multiply(2); // Помножимо всі елементи VecObj на 2
         VecObj4.Output(); // Виводимо результат множення
 
-        return 0; }
+        return 0;
+    }
     }
 
+    return 0;
 }
-
